@@ -5,7 +5,7 @@
 				<img class="index_back" src="../../static/index_back.png">
 				<div class="back_text">
 					<div class="title">2022年05月工资条</div>
-					<div class="money">99999</div>
+					<div class="money">{{fsalary}}</div>
 					<div class="toast_big">实发金额</div>
 					<div class="toast_small">温馨提示：工资条属于绝密文件，请勿泄露</div>
 				</div>
@@ -19,34 +19,14 @@
 		</div>
 		<div class="bottom_content">
 			<div class="content_list">
-				<div class="menu_item">
-					<div class="label">工号</div>
-					<div class="value">彪子</div>
-				</div>
-				<div class="menu_item">
-					<div class="label">基本工资</div>
-					<div class="value">彪子</div>
-				</div>
-				<div class="menu_item">
-					<div class="label">职级工资</div>
-					<div class="value">彪子</div>
-				</div>
-				<div class="menu_item">
-					<div class="label">工龄补贴</div>
-					<div class="value">彪子</div>
-				</div>
-				<div class="menu_item">
-					<div class="label">加班工资补贴</div>
-					<div class="value">彪子</div>
-				</div>
-				<div class="menu_item">
-					<div class="label">扣款</div>
-					<div class="value">彪子</div>
+				<div class="menu_item" v-for="item in user_list">
+					<div class="label">{{item.title}}</div>
+					<div class="value">{{item.value}}</div>
 				</div>
 			</div>
 			<div class="buttons">
 				<div class="button doubt">对工资有疑问?</div>
-				<div class="button confirm">确认签字</div>
+				<div class="button confirm" @click="signFn">确认签字</div>
 			</div>
 		</div>
 	</div>
@@ -164,16 +144,73 @@
 		justify-content: space-between;
 		font-size: 14px;
 		.label{
+			margin-right: 10px;
 			color: #666666;
 		}
 		.value{
+			flex:1;
+			text-align: end;
 			color: #333333;
+			word-break: break-all;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
 		}
 	}
 }
 </style>
 <script>
+	import resource from '../../api/resource.js'
 	export default{
-		
+		data(){
+			return{
+				code:"",
+				flow_id:"",
+				fsalary:0,			//实发工资
+				sing_address:"",	//签名地址
+				user_list:[],		//列表
+			}
+		},
+		created(){
+			this.code = this.$route.query.code;
+			this.flow_id = this.$route.query.flow_id;
+			//获取用户信息
+			this.getUserInfo();
+		},
+		methods:{
+			//获取用户信息
+			getUserInfo(){
+				let arg = {
+					code:this.code,
+					flow_id:this.flow_id
+				}
+				resource.getUserInfo(arg).then(res => {
+					this.fsalary = res.data.data.fsalary;
+					this.sing_address = res.data.data.sing_address;
+					this.user_list = res.data.data.list;
+				})
+			},
+			//去签字
+			signFn(){
+				window.open(this.sing_address);
+			}
+		}
 	}
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
