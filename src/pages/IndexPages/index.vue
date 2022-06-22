@@ -25,7 +25,7 @@
 				</div>
 			</div>
 			<div class="buttons">
-				<div class="button doubt" @click="showModel = true">对工资有疑问?</div>
+				<div class="button doubt" @click="showModel = true">对工资有疑问？</div>
 				<div class="button confirm" @click="signFn">确认签字</div>
 			</div>
 		</div>
