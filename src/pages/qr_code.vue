@@ -10,9 +10,14 @@
 		mounted() {
             this.qrcode();
         },
+        computed:{
+			href(){
+				return this.$store.state.href;
+			}
+		},
 		methods: {
 			qrcode() {
-				let href = localStorage.getItem('href');
+				let href = this.href;
 				let qrcode = new QRCode('qrcode', {
 					width: 162,
 					height: 162,

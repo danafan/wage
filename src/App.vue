@@ -15,7 +15,7 @@
 				//获取钉钉鉴权信息
 				this.getConfig();
 			}else{
-				localStorage.setItem('href',window.location.href);
+				this.$store.commit('setHref',window.location.href);
 				this.$router.replace('/qr_code');
 			}
 		},
@@ -65,9 +65,26 @@
 						onSuccess:  (info) => {
 							let code = info.code;
 							let flow_id = window.location.search.split('=')[1]; 
-							this.$router.replace(`/index?code=${code}&flow_id=${flow_id}`);
+							//判断是否已销毁
+							this.getUserInfo(code,flow_id);
 						}});
 				});
+			},
+			//获取用户信息
+			getUserInfo(code,flow_id){
+				let arg = {
+					code:code,
+					flow_id:flow_id
+				}
+				resource.getUserInfo(arg).then(res => {
+					var data = res.data;
+					if(data.destroy == '1'){
+						this.$router.replace('/damage');
+					}else{
+						this.$store.commit('setUserInfo',data);
+						this.$router.replace('/index');
+					}
+				})
 			},
 			//判断是否是手机端
 			isMobile() {
