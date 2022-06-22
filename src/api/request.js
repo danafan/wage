@@ -4,8 +4,8 @@ import axios from './index'
 export function middleWare(params,type) { 
   
   //组织参数
-  var req = {...params,...{userid:'16161349938228000'}};     
-  // var req = {...params,...{}};   
+  // var req = {...params,...{userid:'16161349938228000'}};     
+  var req = {...params,...{}};   
 
 
   var get_arr = [];

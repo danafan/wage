@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 const index = resolve=>System.import('@/pages/IndexPages/index')
+const qr_code = resolve=>System.import('@/pages/qr_code')
 
 Vue.use(Router);
 
@@ -10,6 +11,11 @@ const router = new Router({
 		path: '/index',
 		name:"工资条",
 		component: index
+	},
+	{
+		path: '/qr_code',
+		name:"扫码登录",
+		component: qr_code
 	}
 	]
 })

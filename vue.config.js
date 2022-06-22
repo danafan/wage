@@ -1,7 +1,7 @@
 module.exports = {	
 	devServer: {
 		proxy: {
-			'/payslip': {
+			'/': {
 				target: 'http://test_sample.92nu.com',
 				ws: true,
 				changOlrigin: true,		

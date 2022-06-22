@@ -4,16 +4,16 @@
 			<div class="back_box">
 				<img class="index_back" src="../../static/index_back.png">
 				<div class="back_text">
-					<div class="title">2022年05月工资条</div>
+					<div class="title">{{title}}工资条</div>
 					<div class="money">{{fsalary}}</div>
 					<div class="toast_big">实发金额</div>
-					<div class="toast_small">温馨提示：工资条属于绝密文件，请勿泄露</div>
+					<div class="toast_small">温馨提示：{{remark}}</div>
 				</div>
 			</div>
 			<div class="user_name_box">
 				<div class="menu_item">
 					<div class="label">姓名</div>
-					<div class="value">彪子</div>
+					<div class="value">{{name}}</div>
 				</div>
 			</div>
 		</div>
@@ -25,8 +25,21 @@
 				</div>
 			</div>
 			<div class="buttons">
-				<div class="button doubt">对工资有疑问?</div>
+				<div class="button doubt" @click="showModel = true">对工资有疑问?</div>
 				<div class="button confirm" @click="signFn">确认签字</div>
+			</div>
+		</div>
+		<div class="model_container" v-if="showModel">
+			<div class="model_content">
+				<img class="model_img" src="../../static/model_img.png">
+				<div class="content">
+					<div class="toast">不要着急哦，工资有疑问</div>
+					<div class="toast">请联系薪资管理员</div>
+					<div class="buttons">
+						<div class="button cancel" @click="showModel = false">取消</div>
+						<div class="button confirm" @click="openChat">去联系</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -159,23 +172,87 @@
 			-webkit-box-orient: vertical;
 		}
 	}
+	.model_container{
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background:rgba(0,0,0,0.49);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		.model_content{
+			position: relative;
+			width: 296px;
+			height: 216px;
+			.model_img{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+			.content{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				padding-top: 84px;
+				.toast{
+					margin-bottom: 8px;
+					width: 100%;
+					text-align: center;
+					font-size: 16px;
+					font-weight: 500;
+					color: #333333;
+				}
+				.buttons{
+					padding-left: 20px;
+					padding-right: 20px;
+					margin-top: 18px;
+					display: flex;
+					justify-content: space-around;
+					.button{
+						border-radius: 20px;
+						width: 120px;
+						text-align: center;
+						height: 40px;
+						line-height: 39px;
+						font-size: 14px;
+					}
+					.cancel{
+						color: #333333;
+					}
+					.confirm{
+						background-color: #4374F4;
+						color: #ffffff
+					}
+				}
+			}
+		}
+	}
 }
 </style>
 <script>
+	import * as dd from 'dingtalk-jsapi';
 	import resource from '../../api/resource.js'
 	export default{
 		data(){
 			return{
-				code:"",
-				flow_id:"",
+				title:"",			//标题
+				name:"",			//姓名
+				remark:"",			//温馨提示
 				fsalary:0,			//实发工资
 				sing_address:"",	//签名地址
+				user_id:"",			//薪资管理员ID
 				user_list:[],		//列表
+				showModel:false,	//弹窗
 			}
 		},
 		created(){
-			this.code = this.$route.query.code;
-			this.flow_id = this.$route.query.flow_id;
 			//获取用户信息
 			this.getUserInfo();
 		},
@@ -183,13 +260,30 @@
 			//获取用户信息
 			getUserInfo(){
 				let arg = {
-					code:this.code,
-					flow_id:this.flow_id
+					code:this.$route.query.code,
+					flow_id:this.$route.query.flow_id
 				}
 				resource.getUserInfo(arg).then(res => {
-					this.fsalary = res.data.data.fsalary;
-					this.sing_address = res.data.data.sing_address;
-					this.user_list = res.data.data.list;
+					this.title = res.data.title;
+					this.fsalary = res.data.fsalary;
+					this.sing_address = res.data.sing_address;
+					this.name = res.data.name;
+					this.remark = res.data.remark;
+					this.user_id = res.data.user_id;
+					this.user_list = res.data.list;
+				})
+			},
+			//去联系
+			openChat(){
+				dd.ready(() => {
+					dd.biz.chat.openSingleChat({
+    					corpId: 'ding7828fff434921f5b', // 企业id,必须是用户所属的企业的corpid
+    					userId:this.user_id, // 用户的uerid
+    					onSuccess : () => {
+    						this.showModel = false;
+    					},
+    					onFail : function() {}
+    				})
 				})
 			},
 			//去签字
