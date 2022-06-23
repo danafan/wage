@@ -18,10 +18,12 @@
 			</div>
 		</div>
 		<div class="bottom_content">
-			<div class="content_list">
-				<div class="menu_item" v-for="item in userInfo.list">
-					<div class="label">{{item.title}}</div>
-					<div class="value">{{item.value}}</div>
+			<div class="content_box">
+				<div class="content_list">
+					<div class="menu_item" v-for="item in userInfo.list">
+						<div class="label">{{item.title}}</div>
+						<div class="value">{{item.value}}</div>
+					</div>
 				</div>
 			</div>
 			<div class="buttons">
@@ -117,15 +119,19 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		.content_list{
-			background-color: #ffffff;
+		.content_box{
 			width: 345px;
 			flex: 1 1 auto;
 			height: 0;
 			overflow-y: scroll;
-			display: flex;
-			flex-direction: column;
+			.content_list{
+				background-color: #ffffff;
+				width: 345px;
+				display: flex;
+				flex-direction: column;
+			}
 		}
+		
 		.buttons{
 			height: 66px;
 			width: 345px;
