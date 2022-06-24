@@ -230,6 +230,7 @@
 						font-size: 14px;
 					}
 					.cancel{
+						background-color: #F8F8F8;
 						color: #333333;
 					}
 					.confirm{
