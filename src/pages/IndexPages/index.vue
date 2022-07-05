@@ -158,6 +158,7 @@
 		}
 	}
 	.menu_item{
+		border-bottom: 1px solid #e8e8e8;
 		padding: 25px 15px;
 		display: flex;
 		justify-content: space-between;
