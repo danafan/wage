@@ -111,6 +111,8 @@
 			width: 345px;
 			border-radius: 8px 8px 0 0;
 			background-color: #ffffff;
+			padding-left: 10px;
+			padding-right: 10px;
 		}
 	}
 	.bottom_content{
@@ -129,6 +131,8 @@
 				width: 345px;
 				display: flex;
 				flex-direction: column;
+				padding-left: 10px;
+				padding-right: 10px;
 			}
 		}
 		
@@ -159,7 +163,7 @@
 	}
 	.menu_item{
 		border-bottom: 1px solid #e8e8e8;
-		padding: 25px 15px;
+		padding: 25px 5px;
 		display: flex;
 		justify-content: space-between;
 		font-size: 14px;

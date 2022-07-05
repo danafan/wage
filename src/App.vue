@@ -9,6 +9,10 @@
 	import resource from './api/resource.js'
 	export default {
 		created(){
+			// //获取用户信息
+			// this.getUserInfo();
+			// return;
+
 			//判断是否是手机端
 			let is_mobile = this.isMobile();
 			if(is_mobile){	//手机端
