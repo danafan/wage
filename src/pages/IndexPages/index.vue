@@ -4,7 +4,7 @@
 			<div class="back_box">
 				<img class="index_back" src="../../static/index_back.png">
 				<div class="back_text">
-					<div class="title">{{userInfo.title}}工资条</div>
+					<div class="title">{{userInfo.title}}</div>
 					<div class="money">{{userInfo.fsalary}}</div>
 					<div class="toast_big">实发金额</div>
 					<div class="toast_small">温馨提示：{{userInfo.remark}}</div>
