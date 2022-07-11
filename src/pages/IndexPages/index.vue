@@ -28,7 +28,7 @@
 			</div>
 			<div class="buttons">
 				<div class="button doubt" @click="showModel = true">对工资有疑问？</div>
-				<div class="button confirm" @click="signFn">确认签字</div>
+				<div class="button confirm" @click="signFn">{{this.userInfo.affirm == '0'?'确认签字':'已签字'}}</div>
 			</div>
 		</div>
 		<div class="model_container" v-if="showModel">
